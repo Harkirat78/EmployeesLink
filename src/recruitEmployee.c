@@ -1,88 +1,59 @@
 #include "../include/headerA3.h"
 
-void recruitEmployee(struct employee **headLL) {
-    // Get employee data from user
-    char fname[MAX_LENGTH], lname[MAX_LENGTH];
+void recruitEmployee(a3Emp **headLL) {
+    a3Emp *newEmp = (a3Emp*)malloc(sizeof(a3Emp));
+
     printf("Enter the first name of the employee: ");
-    scanf("%s", fname);
+    scanf("%s", newEmp->fname);
+
     printf("Enter the last name of the employee: ");
-    scanf("%s", lname);
-    
-    // Calculate empId
+    scanf("%s", newEmp->lname);
+
+    // Generate empId using given rule
     int sum = 0;
-    for (int i = 0; i < strlen(fname); i++) {
-        sum += fname[i];
+    for (int i = 0; i < strlen(newEmp->fname); i++) {
+        sum += (int)newEmp->fname[i];
     }
-    int empId = sum + strlen(lname);
-    
-    // Check if empId already exists and add random numbers if necessary
-    struct employee *curr = *headLL;
-    while (curr != NULL) {
-        if (curr->empId == empId) {
-            empId += rand() % 999 + 1;
-            curr = *headLL; // Start checking from beginning again
+    newEmp->empId = sum + strlen(newEmp->lname);
+
+    // Check if empId already exists in LL, generate new empId if necessary
+    a3Emp *currEmp = *headLL;
+    while (currEmp != NULL) {
+        if (currEmp->empId == newEmp->empId) {
+            newEmp->empId += rand() % 999 + 1;  // Add random number between 1 and 999
+            currEmp = *headLL;  // Start search again from beginning of LL
         } else {
-            curr = curr->nextEmployee;
+            currEmp = currEmp->nextEmployee;
         }
     }
-    
-    // Create new employee node and add to end of linked list
-    struct employee *newEmp = malloc(sizeof(struct employee));
-    if (newEmp == NULL) {
-        printf("Error: Out of memory\n");
-        return;
-    }
-    newEmp->empId = empId;
-    strcpy(newEmp->fname, fname);
-    strcpy(newEmp->lname, lname);
-    
-    // Get dependent data from user
-    char **dependents = malloc(MAX_DEPENDENTS * sizeof(char *));
-    if (dependents == NULL) {
-        printf("Error: Out of memory\n");
-        free(newEmp);
-        return;
-    }
-    int numDependents = 0;
-    while (numDependents < MAX_DEPENDENTS) {
-        char depName[MAX_LENGTH];
-        printf("Enter name of dependent# %d: ", numDependents+1);
-        scanf("%s", depName);
-        dependents[numDependents] = malloc((strlen(depName)+1) * sizeof(char));
-        if (dependents[numDependents] == NULL) {
-            printf("Error: Out of memory\n");
-            free(newEmp);
-            for (int i = 0; i < numDependents; i++) {
-                free(dependents[i]);
-            }
-            free(dependents);
-            return;
-        }
-        strcpy(dependents[numDependents], depName);
-        numDependents++;
-        char response;
+
+    newEmp->numDependents = 0;
+    newEmp->dependents = NULL;
+
+    char ans = 'y';
+    while (tolower(ans) == 'y') {
+        newEmp->numDependents++;
+        newEmp->dependents = (char**)realloc(newEmp->dependents, newEmp->numDependents * sizeof(char*));
+        newEmp->dependents[newEmp->numDependents - 1] = (char*)malloc(MAX_LENGTH * sizeof(char));
+        printf("Enter name of dependent# %d: ", newEmp->numDependents);
+        scanf("%s", newEmp->dependents[newEmp->numDependents - 1]);
         printf("Do you have any more dependents? ");
-        scanf(" %c", &response);
-        if (response == 'n' || response == 'N') {
-            break;
-        }
+        scanf(" %c", &ans);
     }
-    printf("You have %d dependents.\n", numDependents);
-    
-    newEmp->numDependents = numDependents;
-    newEmp->dependents = dependents;
-    newEmp->nextEmployee = NULL;
-    
+
     if (*headLL == NULL) {
         *headLL = newEmp;
+        newEmp->nextEmployee = NULL;
     } else {
-        struct employee *curr = *headLL;
-        while (curr->nextEmployee != NULL) {
-            curr = curr->nextEmployee;
+        currEmp = *headLL;
+        while (currEmp->nextEmployee != NULL) {
+            currEmp = currEmp->nextEmployee;
         }
-        curr->nextEmployee = newEmp;
+        currEmp->nextEmployee = newEmp;
+        newEmp->nextEmployee = NULL;
     }
-    
-    printf("Your computer-generated empId is %d\n", empId);
+
+    printf("You have %d dependents.\n", newEmp->numDependents);
+    printf("Your computer-generated empId is %d\n", newEmp->empId);
 }
 
