@@ -8,7 +8,7 @@ void recruitEmployee(a3Emp **headLL) {
 
     printf("Enter the last name of the employee: ");
     scanf("%s", newEmp->lname);
-
+    printf("\n");
     // Generate empId using given rule
     int sum = 0;
     for (int i = 0; i < strlen(newEmp->fname); i++) {
@@ -39,6 +39,7 @@ void recruitEmployee(a3Emp **headLL) {
         scanf("%s", newEmp->dependents[newEmp->numDependents - 1]);
         printf("Do you have any more dependents? ");
         scanf(" %c", &ans);
+        printf("\n");
     }
 
     if (*headLL == NULL) {
@@ -53,7 +54,7 @@ void recruitEmployee(a3Emp **headLL) {
         newEmp->nextEmployee = NULL;
     }
 
-    printf("You have %d dependents.\n", newEmp->numDependents);
+    printf("You have %d dependents.\n\n", newEmp->numDependents);
     printf("Your computer-generated empId is %d\n", newEmp->empId);
 }
 

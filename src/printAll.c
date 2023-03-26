@@ -14,17 +14,17 @@ void printAll(struct employee *headLL) {
     while (curr != NULL) {
         count++;
         printf("Employee #%d:\n", count);
-        printf("Employee id: %d\n", curr->empId);
-        printf("First name: %s\n", curr->fname);
-        printf("Last name: %s\n", curr->lname);
-        printf("Dependents [%d]: ", curr->numDependents);
+        printf("\tEmployee id: %d\n", curr->empId);
+        printf("\tFirst name: %s\n", curr->fname);
+        printf("\tLast name: %s\n", curr->lname);
+        printf("\tDependents [%d]: ", curr->numDependents);
         for (int i = 0; i < curr->numDependents; i++) {
             printf("%s", curr->dependents[i]);
             if (i != curr->numDependents - 1) {
                 printf(", ");
             }
         }
-        printf("\n");
+        printf("\n\n");
 
         curr = curr->nextEmployee;
     }
