@@ -158,7 +158,7 @@ int main(int argc, char * argv[]) {
                     printf("All fired. Linked list is now empty.\n\n");
                 }
                 else{
-                    printf("Ok, return back to the menu");
+                    printf("Ok, return back to the menu\n\n");
                 }
                 break;
             //option 10 will exit menu

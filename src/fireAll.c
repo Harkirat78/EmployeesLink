@@ -11,7 +11,7 @@ void fireAll(struct employee **headLL) {
 
     //check if list is empty
     if(headLL == NULL){
-        printf("The list is already empty");
+        printf("The list is already empty\n");
         return;
     }
     a3Emp * current = *headLL; //struct points to head of linked list
