@@ -1,5 +1,6 @@
 #include "../include/headerA3.h"
 
+//helper file for proFile main
 a3Emp *createEmpDataFromFile(FILE *filePtr)
 { // helper func
 
