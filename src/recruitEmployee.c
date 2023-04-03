@@ -13,8 +13,12 @@ Returns: void
 void recruitEmployee(a3Emp **headLL) {
 
     //dynamically allocate space for amount of struct for the new employee 
-    a3Emp *newEmp = (a3Emp*)malloc(sizeof(a3Emp));
-
+    a3Emp * newEmp = malloc(sizeof(a3Emp));
+    //check if memory allocated successfully
+    if (newEmp == NULL) {
+        printf("Memory allocation failed. Exiting...\n");
+        exit(1);
+    }
     //prompt user for first and last name of the employee
     printf("Enter the first name of the employee: ");
     scanf("%s", newEmp->fname);
@@ -23,22 +27,24 @@ void recruitEmployee(a3Emp **headLL) {
     printf("\n");
 
     //generate empId using given rule, empId = (sum of ascii values of characters in the first name) + (length of the employee’s last name
-    int sum = 0;
+    int sum = 0; //variable to store sum of first calculation
     for (int i = 0; i < strlen(newEmp->fname); i++) {
-        sum = sum + (int)newEmp->fname[i];
+        sum = sum + (int)newEmp->fname[i]; //cast
     }
-    newEmp->empId = sum + strlen(newEmp->lname);
+    newEmp->empId = sum + strlen(newEmp->lname); //add to the length of employee last name
 
     //check if empId already exists in LL, generate new empId if necessary
-    a3Emp *currEmp = *headLL;
+    a3Emp * currEmp = *headLL; //set the current employee to point to the head of the linked list
+    //loop will iterate till currEmp reaches NULL
     while (currEmp != NULL) {
-        if (currEmp->empId == newEmp->empId) {
-            newEmp->empId += rand() % 999 + 1;  // Add random number between 1 and 999
-            currEmp = *headLL;  // Start search again from beginning of LL
+        if (currEmp->empId == newEmp->empId) { //check if the employee ID already exists
+            newEmp->empId += rand() % 999 + 1;  //add random number between 1 and 999
+            currEmp = *headLL;  //start search again from beginning of LL
         } else {
-            currEmp = currEmp->nextEmployee;
+            currEmp = currEmp->nextEmployee; //search through the list of employees
         }
     }
+    //initalize to default values
     newEmp->numDependents = 0;
     newEmp->dependents = NULL;
 
@@ -52,26 +58,26 @@ void recruitEmployee(a3Emp **headLL) {
         newEmp->dependents[newEmp->numDependents - 1] = malloc(sizeof(char)*MAX_LENGTH);
         //prompt user to enter name of dependent and whether they have more than 1
         printf("Enter name of dependent# %d: ", newEmp->numDependents);
-        scanf("%s", newEmp->dependents[newEmp->numDependents - 1]);
+        scanf("%s", newEmp->dependents[newEmp->numDependents - 1]); //subtract one since array indexes start at 0
         printf("Do you have any more dependents? ");
         scanf(" %c", &ans);
         printf("\n");
     }
     //check if head is pointing to NULL
     if (*headLL == NULL) {
-        *headLL = newEmp;
-        newEmp->nextEmployee = NULL;
+        *headLL = newEmp; //make head point to the new employee
+        newEmp->nextEmployee = NULL; //added to end of list
+    //if list is not empty then traverse through the list until currEmp points to the last node of the list
     } else {
-        currEmp = *headLL;
+        currEmp = *headLL; //make the point to the head
+        //loop will iterate till end of linked list and will traverse through the list
         while (currEmp->nextEmployee != NULL) {
-            currEmp = currEmp->nextEmployee;
+            currEmp = currEmp->nextEmployee; //keep pointing to next node till null is reached
         }
-        currEmp->nextEmployee = newEmp;
+        //add newly created employee to end of linked list
+        currEmp->nextEmployee = newEmp; 
         newEmp->nextEmployee = NULL;
     }
-
-    printf("You have %d dependents.\n\n", newEmp->numDependents);
-    printf("Your computer-generated empId is %d\n", newEmp->empId);
 }
 
 
