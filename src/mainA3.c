@@ -165,18 +165,20 @@ int main(int argc, char * argv[]) {
             case 10:
                 printf("Exiting...\n");
                 //block of code used to free linked list after user is done with menu
-                a3Emp * current = headLL;
-                a3Emp * next;
+                a3Emp * current = headLL; //struct pointer used to point to head
+                a3Emp * next; //struct pointer used to keep pointing to next
+                //loop will iterate till end of list
                 while (current != NULL) {
+                    //free all dependents
                     for (int i = 0; i < current->numDependents; i++) {
                         free(current->dependents[i]);
                     }
-                    free(current->dependents);
-                    next = current->nextEmployee;
-                    free(current);
-                    current = next;
+                    free(current->dependents); 
+                    next = current->nextEmployee; //move to next
+                    free(current); //free  the node
+                    current = next; //move to next node
                 }
-                headLL = NULL;
+                headLL = NULL; //set head to point NULL as the list is empty
                 break;
             //request user to reenter if input is invalid (<0 or >10)
             default:
