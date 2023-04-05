@@ -7,7 +7,7 @@ Function name: fireAll
 Input: double pointer to struct employee
 Returns: void
 */
-void fireAll(struct employee **headLL) {
+void fireAll(a3Emp **headLL) {
 
     //check if list is empty
     if(headLL == NULL){

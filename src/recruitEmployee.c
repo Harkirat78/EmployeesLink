@@ -10,7 +10,7 @@ Function name: recruitEmployee
 Inputs: struct
 Returns: void
 */
-void recruitEmployee(a3Emp **headLL) {
+void recruitEmployee(struct employee **headLL) {
 
     //dynamically allocate space for amount of struct for the new employee 
     a3Emp * newEmp = malloc(sizeof(a3Emp));
