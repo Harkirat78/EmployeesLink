@@ -153,7 +153,7 @@ int main(int argc, char * argv[]) {
                 scanf(" %c", &confirm);
                 getchar(); //consume newline character
                 //check if user is sure
-                if (confirm == 'y') {
+                if (confirm == 'y' || confirm == 'Y') {
                     fireAll(&headLL);
                     printf("All fired. Linked list is now empty.\n\n");
                 }
